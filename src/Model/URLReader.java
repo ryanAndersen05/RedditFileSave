@@ -2,6 +2,7 @@ package Model;
 import java.net.URLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.HttpURLConnection;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,11 +18,11 @@ public class URLReader {
 	 * @param url
 	 * @return
 	 */
-	public static String GetFullHTMLFromURL(String url) {
+	public static String GetFullHTMLFromURL(String url, String cookie) {
 		
 		
 		try {
-			URLConnection connection = new URL(url).openConnection();
+			URLConnection connection = GetConnection(url, cookie);
 			InputStreamReader inputStream = new InputStreamReader(connection.getInputStream());
 			BufferedReader br = new BufferedReader(inputStream);
 			String fullHTMLText = "";
@@ -40,7 +41,15 @@ public class URLReader {
 		return null;
 	}
 	
+	public static String GetFullHTMLFromURL(String url) {
+		return GetFullHTMLFromURL(url, "");
+	}
+	
 	public static URLConnection GetConnection(String url) {
+		return GetConnection(url, "");
+	}
+	
+	public static URLConnection GetConnection(String url, String cookie) {
 		URL u = null;
 		try {
 			u = new URL(url);
@@ -57,13 +66,14 @@ public class URLReader {
 			e.printStackTrace();
 			return null;
 		}
-		
+		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		connection.setReadTimeout(5000);
 		connection.setDoOutput(true);
+		connection.setRequestProperty("Cookie", cookie);
 		return connection;
 	}
 	
-	public static boolean WriteToConnection (URLConnection connection, String data) {
+	public static boolean WriteToConnection (HttpURLConnection connection, String data) {
 		try {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
 			pw.write(data);
