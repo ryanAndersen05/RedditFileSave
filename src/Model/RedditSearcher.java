@@ -6,8 +6,8 @@ import java.lang.Thread;
 
 public class RedditSearcher {
 	public final String REDDIT_LOGIN_URL = "https://ssl.reddit.com/api/login";
-	private final String userName = "schizophrenicGhost";
-	private final String password = "sodapop05";
+	private final String userName = "RedditSaveFileBot";
+	private final String password = "rsfb123";
 	
 	private String redditCookie = "";
 	

@@ -28,8 +28,14 @@ public class URLReader {
 			String fullHTMLText = "";
 			String line = br.readLine();
 			while (line != null) {
+				for (int i = 0; i < line.length() - 1; i++) {
+					if (line.charAt(i) == '>' && line.charAt(i + 1) == '<') {
+						line = line.substring(0, i + 1) + '\n' + line.substring(i + 1, line.length());
+					}
+				}
 				fullHTMLText += (line + "\n");
 				line = br.readLine();
+				
 			}
 			br.close();
 			return fullHTMLText;
